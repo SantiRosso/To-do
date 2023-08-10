@@ -26,7 +26,8 @@ export class TasksController {
   }
   @Patch(':id')
   updateTask(@Param('id') id: string, @Body() updateTaskFields: updateTaskDto) {
-    return this.taskService.updateTask(id, updateTaskFields);
+    this.taskService.updateTask(id, updateTaskFields);
+    return 'Task updated seccesfully';
   }
   @Delete(':id')
   deleteTask(@Param('id') id: string) {
