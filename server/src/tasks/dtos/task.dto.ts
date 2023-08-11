@@ -1,4 +1,4 @@
-import { TaskStatus } from 'src/tasks/task.entity';
+import { TaskStatus } from '../entities/task.entity';
 import {
   IsString,
   IsNotEmpty,
