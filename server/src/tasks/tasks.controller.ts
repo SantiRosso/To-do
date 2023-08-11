@@ -8,8 +8,8 @@ import {
   Patch,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { CreateTaskDto, updateTaskDto } from 'src/dtos/task.dto';
-import { Task } from './task.entity';
+import { CreateTaskDto, updateTaskDto } from './dtos/task.dto';
+import { Task } from './entities/task.entity';
 
 @Controller('tasks')
 export class TasksController {
@@ -25,13 +25,16 @@ export class TasksController {
     return newTask;
   }
   @Patch(':id')
-  updateTask(@Param('id') id: string, @Body() updateTaskFields: updateTaskDto) {
-    this.taskService.updateTask(id, updateTaskFields);
+  async updateTask(
+    @Param('id') id: string,
+    @Body() updateTaskFields: updateTaskDto,
+  ) {
+    await this.taskService.updateTask(id, updateTaskFields);
     return 'Task updated seccesfully';
   }
   @Delete(':id')
-  deleteTask(@Param('id') id: string) {
-    this.taskService.deleteTask(id);
+  async deleteTask(@Param('id') id: string) {
+    await this.taskService.deleteTask(id);
     return 'Task deleted successfully!';
   }
 }
