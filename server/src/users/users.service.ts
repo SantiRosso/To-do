@@ -5,11 +5,14 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { UpdateUserDto } from './dtos/updateUser.dto';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { CreateProfileDto } from './dtos/createProfile.dto';
+import { Profile } from './entities/profile.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Profile) private profileRepository: Repository<Profile>,
   ) {}
 
   async getUsers() {
@@ -64,5 +67,25 @@ export class UsersService {
     }
 
     return result;
+  }
+
+  async createProfile(id: number, profile: CreateProfileDto) {
+    const userFound: User = await this.userRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!userFound) {
+      return new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    const newProfile = this.profileRepository.create(profile);
+
+    const savedProfile = await this.profileRepository.save(newProfile);
+
+    userFound.profile = savedProfile;
+
+    return this.userRepository.save(userFound);
   }
 }
