@@ -18,9 +18,8 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Post()
-  async createUser(@Body() newUser: CreateUserDto) {
-    await this.usersService.create(newUser);
-    return 'User created successfully';
+  createUser(@Body() newUser: CreateUserDto) {
+    return this.usersService.create(newUser);
   }
 
   @Get()
@@ -29,13 +28,13 @@ export class UsersController {
   }
 
   @Get(':id')
-  async getUserById(@Param('id', ParseIntPipe) id: number): Promise<User> {
+  async getUserById(@Param('id', ParseIntPipe) id: number) {
     return await this.usersService.getUserById(id);
   }
 
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
-    await this.usersService.delete(id);
+    return await this.usersService.delete(id);
   }
 
   @Patch(':id')
@@ -43,6 +42,6 @@ export class UsersController {
     @Param('id', ParseIntPipe) id: number,
     @Body() user: UpdateUserDto,
   ) {
-    await this.usersService.update(id, user);
+    return await this.usersService.update(id, user);
   }
 }

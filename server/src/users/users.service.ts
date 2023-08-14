@@ -4,6 +4,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { UpdateUserDto } from './dtos/updateUser.dto';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
@@ -16,23 +17,52 @@ export class UsersService {
   }
 
   async getUserById(id: number) {
-    return await this.userRepository.findOne({
+    const userFound: User = await this.userRepository.findOne({
       where: {
         id,
       },
     });
+
+    if (!userFound) {
+      return new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return userFound;
   }
 
   async create(user: CreateUserDto) {
+    const userFound = await this.userRepository.findOne({
+      where: {
+        username: user.username,
+      },
+    });
+
+    if (userFound) {
+      return new HttpException('username already exists', HttpStatus.CONFLICT);
+    }
+
     const newUser = this.userRepository.create(user);
     await this.userRepository.save(newUser);
+    return newUser;
   }
 
   async update(id: number, updateFields: UpdateUserDto) {
-    await this.userRepository.update({ id }, updateFields);
+    const result = await this.userRepository.update({ id }, updateFields);
+
+    if (result.affected === 0) {
+      return new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return result;
   }
 
   async delete(id: number) {
-    return await this.userRepository.delete({ id });
+    const result = await this.userRepository.delete({ id });
+
+    if (result.affected === 0) {
+      return new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return result;
   }
 }
