@@ -16,6 +16,8 @@ export class CreateTaskDto {
   @IsNotEmpty()
   @MinLength(15)
   description: string;
+  authorId: number;
+  status: TaskStatus;
 }
 
 export class updateTaskDto {
@@ -23,15 +25,15 @@ export class updateTaskDto {
   @IsNotEmpty()
   @MinLength(2)
   @IsOptional()
-  title?: string;
+  title: string;
   @IsString()
   @IsNotEmpty()
   @MinLength(15)
   @IsOptional()
-  description?: string;
+  description: string;
   @IsString()
   @IsNotEmpty()
   @IsOptional()
   @IsIn([TaskStatus.DONE, TaskStatus.IN_PROGRESS, TaskStatus.PENDING])
-  status?: TaskStatus;
+  status: TaskStatus;
 }

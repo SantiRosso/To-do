@@ -16,7 +16,9 @@ export class UsersService {
   ) {}
 
   async getUsers() {
-    return await this.userRepository.find();
+    return await this.userRepository.find({
+      relations: ['tasks'],
+    });
   }
 
   async getUserById(id: number) {
@@ -24,6 +26,7 @@ export class UsersService {
       where: {
         id,
       },
+      relations: ['tasks'],
     });
 
     if (!userFound) {
