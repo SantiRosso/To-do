@@ -9,8 +9,10 @@ import {
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dtos/task.dto';
+import { ApiTags } from '@nestjs/swagger';
 // import { Task } from './entities/task.entity';
 
+@ApiTags('tasks')
 @Controller('tasks')
 export class TasksController {
   constructor(private taskService: TasksService) {}
