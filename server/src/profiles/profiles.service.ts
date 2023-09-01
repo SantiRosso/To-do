@@ -5,6 +5,7 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { CreateProfileDto } from './dtos/createProfile.dto';
 import { Profile } from './entities/profile.entity';
 import { UsersService } from 'src/users/users.service';
+import { UpdateProfileDto } from './dtos/updateProfile.dto';
 
 @Injectable()
 export class ProfileService {
@@ -49,6 +50,16 @@ export class ProfileService {
     await this.usersService.deleteProfile(userFound);
 
     const result = await this.profileRepository.delete({ id });
+
+    if (result.affected === 0) {
+      return new HttpException('Profile not found', HttpStatus.NOT_FOUND);
+    }
+
+    return result;
+  }
+
+  async update(id: number, updateFields: UpdateProfileDto) {
+    const result = await this.profileRepository.update({ id }, updateFields);
 
     if (result.affected === 0) {
       return new HttpException('Profile not found', HttpStatus.NOT_FOUND);

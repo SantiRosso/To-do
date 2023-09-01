@@ -6,11 +6,12 @@ import {
   Param,
   ParseIntPipe,
   Delete,
-  //   Patch,
+  Patch,
 } from '@nestjs/common';
 import { CreateProfileDto } from './dtos/createProfile.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { ProfileService } from './profiles.service';
+import { UpdateProfileDto } from './dtos/updateProfile.dto';
 
 @ApiTags('profile')
 @Controller('profile')
@@ -36,5 +37,13 @@ export class ProfileController {
     @Param('userId', ParseIntPipe) userId: number,
   ) {
     return this.profileService.delete(id, userId);
+  }
+
+  @Patch(':id')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateFields: UpdateProfileDto,
+  ) {
+    return this.profileService.update(id, updateFields);
   }
 }
