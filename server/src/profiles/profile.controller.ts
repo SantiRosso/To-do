@@ -5,7 +5,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
-  //   Delete,
+  Delete,
   //   Patch,
 } from '@nestjs/common';
 import { CreateProfileDto } from './dtos/createProfile.dto';
@@ -28,5 +28,13 @@ export class ProfileController {
   @Get()
   findAll() {
     return this.profileService.findAll();
+  }
+
+  @Delete(':id/:userId')
+  delete(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('userId', ParseIntPipe) userId: number,
+  ) {
+    return this.profileService.delete(id, userId);
   }
 }

@@ -81,4 +81,9 @@ export class UsersService {
 
     return await this.userRepository.save(userFound);
   }
+
+  async deleteProfile(userFound: User) {
+    userFound.profile = null;
+    return await this.userRepository.save(userFound);
+  }
 }

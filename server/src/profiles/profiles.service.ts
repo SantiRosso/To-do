@@ -38,4 +38,22 @@ export class ProfileService {
       relations: ['user'],
     });
   }
+
+  async delete(id: number, userId: number) {
+    const userFound = await this.usersService.getUserById(userId);
+
+    if (!userFound || userFound instanceof HttpException) {
+      return new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    await this.usersService.deleteProfile(userFound);
+
+    const result = await this.profileRepository.delete({ id });
+
+    if (result.affected === 0) {
+      return new HttpException('Profile not found', HttpStatus.NOT_FOUND);
+    }
+
+    return result;
+  }
 }
