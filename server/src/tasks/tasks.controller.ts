@@ -1,16 +1,16 @@
 import {
   Body,
   Controller,
-  // Delete,
+  Delete,
   Get,
-  // Param,
+  Param,
   Post,
-  // Patch,
+  Patch,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { CreateTaskDto } from './dtos/task.dto';
+import { CreateTaskDto } from './dtos/crateTask.dto';
+import { UpdateTaskDto } from './dtos/updateTast.dto';
 import { ApiTags } from '@nestjs/swagger';
-// import { Task } from './entities/task.entity';
 
 @ApiTags('tasks')
 @Controller('tasks')
@@ -19,31 +19,29 @@ export class TasksController {
 
   @Get()
   async getTask() {
-    return await this.taskService.getTask();
+    return await this.taskService.findAll();
   }
 
-  // @Get(':id')
-  // async getById(@Param('id') id: string) {
-  //   return await this.taskService.getById(id);
-  // }
+  @Get(':id')
+  async getById(@Param('id') id: string) {
+    return await this.taskService.getById(id);
+  }
 
   @Post()
   async createTask(@Body() task: CreateTaskDto) {
-    return await this.taskService.createTask(task);
+    return await this.taskService.create(task);
   }
 
-  // @Patch(':id')
-  // async updateTask(
-  //   @Param('id') id: string,
-  //   @Body() updateTaskFields: updateTaskDto,
-  // ) {
-  //   await this.taskService.updateTask(id, updateTaskFields);
-  //   return 'Task updated seccesfully';
-  // }
+  @Patch(':id')
+  async updateTask(
+    @Param('id') id: string,
+    @Body() updateTaskFields: UpdateTaskDto,
+  ) {
+    return await this.taskService.update(id, updateTaskFields);
+  }
 
-  // @Delete(':id')
-  // async deleteTask(@Param('id') id: string) {
-  //   await this.taskService.deleteTask(id);
-  //   return 'Task deleted successfully!';
-  // }
+  @Delete(':id')
+  async deleteTask(@Param('id') id: string) {
+    return await this.taskService.delete(id);
+  }
 }

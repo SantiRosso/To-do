@@ -8,24 +8,7 @@ import {
   IsIn,
 } from 'class-validator';
 
-export class CreateTaskDto {
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(2)
-  @ApiProperty()
-  title: string;
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(15)
-  @ApiProperty()
-  description: string;
-  @ApiProperty()
-  authorId: number;
-  @ApiProperty()
-  status: TaskStatus;
-}
-
-export class updateTaskDto {
+export class UpdateTaskDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(2)
