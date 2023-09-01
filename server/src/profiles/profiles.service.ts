@@ -16,7 +16,7 @@ export class ProfileService {
   async create(id: number, profile: CreateProfileDto) {
     const userFound: any = await this.usersService.getUserById(id);
 
-    if (!userFound) {
+    if (!userFound || userFound instanceof HttpException) {
       return new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
@@ -26,8 +26,16 @@ export class ProfileService {
 
     const newProfile = this.profileRepository.create(profile);
 
+    newProfile.user = userFound;
+
     const savedProfile = await this.profileRepository.save(newProfile);
 
     return await this.usersService.createProfile(savedProfile, id);
+  }
+
+  async findAll() {
+    return await this.profileRepository.find({
+      relations: ['user'],
+    });
   }
 }

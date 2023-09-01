@@ -2,7 +2,7 @@ import {
   Controller,
   Post,
   Body,
-  //   Get,
+  Get,
   Param,
   ParseIntPipe,
   //   Delete,
@@ -18,10 +18,15 @@ export class ProfileController {
   constructor(private profileService: ProfileService) {}
 
   @Post(':id')
-  createProfile(
+  create(
     @Param('id', ParseIntPipe) id: number,
     @Body() profile: CreateProfileDto,
   ) {
     return this.profileService.create(id, profile);
+  }
+
+  @Get()
+  findAll() {
+    return this.profileService.findAll();
   }
 }
