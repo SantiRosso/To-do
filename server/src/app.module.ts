@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TasksModule } from './tasks/tasks.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
+import { ProfileModule } from './profiles/profiles.module';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 const { DB_PASSWORD, DB_PORT, DB_USER, DB_NAME, DB_HOST } = process.env;
@@ -20,6 +21,7 @@ const { DB_PASSWORD, DB_PORT, DB_USER, DB_NAME, DB_HOST } = process.env;
     }),
     TasksModule,
     UsersModule,
+    ProfileModule,
   ],
   controllers: [],
   providers: [],

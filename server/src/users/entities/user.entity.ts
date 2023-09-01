@@ -6,7 +6,7 @@ import {
   JoinColumn,
   OneToMany,
 } from 'typeorm';
-import { Profile } from './profile.entity';
+import { Profile } from '../../profiles/entities/profile.entity';
 import { Task } from 'src/tasks/entities/task.entity';
 
 @Entity({ name: 'users' })
